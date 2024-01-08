@@ -1,6 +1,7 @@
 package com.ra.view;
 
 import com.ra.model.Category;
+import com.ra.service.BookService;
 import com.ra.service.CategoryService;
 
 import java.util.Scanner;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 public class Library  {
     private  static final Scanner sc =new Scanner(System.in);
     private static final CategoryService categoryService=new CategoryService();
+    private static final BookService bookService=new BookService();
     public  static void showMenu(){
         do {
             System.out.println("===== Quản Lý Thư Viện =====");
@@ -77,7 +79,7 @@ public class Library  {
         do {
             System.out.println("===== Quản Lý Sách =====");
             System.out.println("1. Thêm mới Sách");
-            System.out.println("2. Cập nhật sách");
+            System.out.println("2. Cập nhật thông tin sách");
             System.out.println("3. Xóa sách");
             System.out.println("4. Tìm kiếm sách");
             System.out.println("5. Hiển thị sách theo thể loại");
@@ -87,8 +89,10 @@ public class Library  {
 
             switch (choice){
                 case 1:
+                    bookService.addBook();
                     break;
                 case 2:
+                    bookService.showBook();
                     break;
                 case 3:
                     break;

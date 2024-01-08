@@ -104,11 +104,43 @@ public class CategoryService {
         if (category!=null){
             System.out.println("Chi tiết thể loại: ");
             category.output();
+            System.out.println("-----------------------");
 
-            System.out.println("Nhập tên thể loại mới: ");
-            category.setName(sc.nextLine());
-            System.out.println("Nhập trạng thái mới");
-            category.setStatus(Boolean.parseBoolean(sc.nextLine()));
+
+            do {
+                try{
+                    System.out.println("Nhập tên thể loại mới: ");
+                    String newName= sc.nextLine();
+                    category.setName(newName);
+
+                    if (newName.isEmpty()){
+                        System.err.println("Tên thể loại không được để trống! ");
+                    } else if (newName.length()<6 || newName.length()>30) {
+                        System.err.println(" Tên thể loại phải từ 6-30 ký tự !");
+                    }
+                    else {
+                        break;
+                    }
+                }
+                catch (Exception e){
+                    System.err.println("Tên thể loại không được để trống!");
+                }
+            }
+            while (true);
+
+            do {
+                System.out.println("Cập nhật lại trạng thái, yêu cầu true or false ");
+                String newStatus1=sc.nextLine();
+                category.setStatus(Boolean.parseBoolean(newStatus1));
+                if (newStatus1.equals("true") || newStatus1.equals("false")){
+                    break;
+                }
+                else {
+                    System.err.println("Bạn cần nhập true hoặc false ");
+                }
+            }
+            while (true);
+
             saveToFile(categories);
         }
         else {

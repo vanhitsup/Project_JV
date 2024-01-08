@@ -104,9 +104,10 @@ public class Category implements IEntity, Serializable {
 
         //nhập trạng thái
         do {
-            System.out.println("Nhập trạng thái thể loại ");
-            status=Boolean.parseBoolean(sc.nextLine());
-            if (status){
+            System.out.println("Nhập trạng thái thể loại true or false ");
+            String status1=sc.nextLine();
+            if (status1.equals("true") || status1.equals("false")){
+                status=Boolean.parseBoolean(status1);
                 break;
             }
             else {
