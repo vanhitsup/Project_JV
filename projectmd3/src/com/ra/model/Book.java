@@ -269,5 +269,6 @@ public class Book implements IEntity, Serializable {
         System.out.println("Năm xuất bản: " +year);
         System.out.println("Mô tả sách: " +description);
         System.out.println("Mã thể loại: " + categoryId);
+        System.out.println("--------------");
     }
 }

@@ -92,13 +92,17 @@ public class Library  {
                     bookService.addBook();
                     break;
                 case 2:
-                    bookService.showBook();
+                    bookService.updateBook();
                     break;
                 case 3:
+                    bookService.deleteBook();
                     break;
                 case 4:
+                    bookService.searchBook();
                     break;
                 case 5:
+                    bookService.showBook();
+
                     break;
                 case 6:
                     showMenu();

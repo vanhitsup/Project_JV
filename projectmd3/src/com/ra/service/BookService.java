@@ -10,7 +10,9 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class BookService {
-    Scanner sc=new Scanner(System.in);
+    private static final CategoryService categoryService=new CategoryService();
+
+
     File file;
     public BookService() {
         File dataDir = new File("data");
@@ -58,7 +60,18 @@ public class BookService {
         return books;
     }
 
+    //Check IdCate có tồn tại hay ko
+    public boolean checkIdCategory(int idCate){
+        List<Category> categories= categoryService.getAllToFile();
+        for (Category category : categories) {
+            if (idCate==category.getId()){
+                return false;
+            }
+        }
+        return true;
+    }
     public void addBook(){
+        Scanner sc=new Scanner(System.in);
         List<Book> books=getAllToFile();
         do {
             System.out.println("Nhâp vào thông tin Sách");
@@ -95,7 +108,181 @@ public class BookService {
     }
     //Update book
     public void updateBook(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Nhập vào mã sách cần sửa: ");
+        String checkIdBook= sc.nextLine();
+        List<Book> books=getAllToFile();
+        Book book=findIdBook(checkIdBook,books);
+
+        if (book!=null){
+            System.out.println("Chi tiết sách cần sửa !");
+            System.out.println("-----------------------");
+            book.output();
+
+            //
+            do {
+                try{
+                    System.out.println("--------------------");
+                    System.out.println("Mời nhập tiêu đề mới: ");
+                    String newTitle=sc.nextLine();
+                    book.setTitle(newTitle);
+                    if (newTitle.isEmpty()){
+                        System.err.println("Tiêu đề không được để trống và có số ký tự từ 6-50! ");
+                    }
+                    else {
+                        if (newTitle.length()<6 || newTitle.length()>50){
+                            System.err.println("Tiêu đề có số ký tự từ 6-50! ");
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                }
+                catch (Exception e){
+                    System.err.println("Tiêu đề không được để trống!");
+                }
+            }
+            while (true);
+
+            //
+            do {
+                try {
+                    System.out.println("Mời nhập tên tác giả: ");
+                    String newAuthor=sc.nextLine();
+                    book.setAuthor(newAuthor);
+                    if (newAuthor.isEmpty()){
+                        System.err.println("Tên tác giả không được để trống ! ");
+                    }
+                    else {
+                        break;
+                    }
+                }
+                catch (Exception e){
+                    System.err.println("Tên tác giả không được để trống ");
+                }
+            }
+            while (true);
+
+            //
+            do {
+                try {
+                    System.out.println("Mời nhập nhà xuất bản: ");
+                    String newPublisher=sc.nextLine();
+                    book.setPublisher(newPublisher);
+                    if (newPublisher.isEmpty()){
+                        System.err.println("Nhà xuất bản không được để trống ! ");
+                    }
+                    else {
+                        break;
+                    }
+                }
+                catch (Exception e){
+                    System.err.println("Tên tác giả không được để trống ");
+                }
+            }
+            while (true);
+
+            //
+            do {
+                try{
+                    System.out.println("Mời nhập năm xuất bản: ");
+                    int newYear=Integer.parseInt(sc.nextLine());
+                    book.setYear(newYear);
+                    if (newYear<1970 || newYear>2024){
+                        System.err.println("Năm xuất bản phải từ 1970 - 2024");
+                    }
+                    else {
+                        break;
+                    }
+                }catch (Exception e){
+                    System.err.println(" Năm xuất bản từ 1970-2024");
+                }
+            }
+            while (true);
+
+            //
+            do {
+                try {
+                    System.out.println("Mời nhập mô tả sách: ");
+                    String newDes=sc.nextLine();
+                    book.setDescription(newDes);
+                    if (newDes.isEmpty()){
+                        System.err.println("Mô tả sách không được để trống ! ");
+                    }
+                    else {
+                        break;
+                    }
+                }
+                catch (Exception e){
+                    System.err.println("Mô tả sách không được để trống ");
+                }
+            }
+            while (true);
+            //
+            do {
+                try {
+                    System.out.println("Mời nhập mã thể loại sách: ");
+                    int newCategoryId=Integer.parseInt(sc.nextLine());
+                    book.setCategoryId(newCategoryId);
+                    if (newCategoryId<0){
+                        System.err.println("Mã thể loại sách không được để trống ! ");
+                    }
+                    else {
+                        if (checkIdCategory(newCategoryId)){
+                            System.err.println("Mã thể loại sách không tồn tại");
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                catch (Exception e){
+                    System.err.println("Mã thể loại sách không được để trống ");
+                }
+            }
+            while (true);
+            System.out.println("Sửa sản phẩm thành công !");
+            saveToFile(books);
+        }
+        else {
+            System.err.println("Không tìm thấy sách !");
+        }
 
     }
 
+    //Delete book
+    public void deleteBook(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Nhập mã sách cần xóa: ");
+        String checkIdBook= sc.nextLine();
+        List<Book> books=getAllToFile();
+
+        Book book= findIdBook(checkIdBook,books);
+        if ((book!=null)){
+            books.remove(book);
+            System.err.println(" Sách có mã = " +checkIdBook+ " đã được xóa thành công !");
+            saveToFile(books);
+        }
+        else {
+            System.err.println("Không tìm thấy thể loại có mã : "+checkIdBook);
+        }
+
+    }
+
+
+    //Search book
+    public void searchBook(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Nhập vào tên sách bạn cần tìm ");
+        String nameBook=sc.nextLine();
+        List<Book> books=getAllToFile();
+
+        for (Book value : books){
+            if (nameBook.contains(value.getTitle())){
+                System.out.println("Mã sách " + value.getId());
+
+            }
+        }
+    }
 }
