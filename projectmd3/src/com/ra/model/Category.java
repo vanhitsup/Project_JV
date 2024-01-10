@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import com.ra.service.CategoryService;
-public class Category implements IEntity, Serializable {
+public class Category implements IEntity, Serializable,Comparable<Category> {
     @Serial
     private static final long serialVersionUID=1L;
     private static final CategoryService categoryService=new CategoryService();
@@ -131,4 +131,10 @@ public class Category implements IEntity, Serializable {
         }
     }
 
+
+
+    @Override
+    public int compareTo(Category o) {
+        return this.getName().compareTo(o.getName());
+    }
 }

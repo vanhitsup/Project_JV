@@ -261,7 +261,6 @@ public class Book implements IEntity, Serializable {
 
     @Override
     public void output() {
-        System.out.println("Danh sách Sách ");
         System.out.println("Mã sách " + id);
         System.out.println("Tiêu đề sách: " + title);
         System.out.println("Tên tác giả  "+author);

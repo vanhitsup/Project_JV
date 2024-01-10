@@ -58,6 +58,7 @@ public class Library  {
                     categoryService.showCategory();
                     break;
                 case 3:
+                    categoryService.statisticsCategory();
                     break;
                 case 4:
                     categoryService.updateCategory();
@@ -101,8 +102,9 @@ public class Library  {
                     bookService.searchBook();
                     break;
                 case 5:
-                    bookService.showBook();
+//                    bookService.bookGroupCategory();
 
+                    bookService.showBook();
                     break;
                 case 6:
                     showMenu();

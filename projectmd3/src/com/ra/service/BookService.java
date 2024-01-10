@@ -13,7 +13,7 @@ public class BookService {
     private static final CategoryService categoryService=new CategoryService();
 
 
-    File file;
+    static File file;
     public BookService() {
         File dataDir = new File("data");
         if (!dataDir.exists()) {
@@ -33,7 +33,7 @@ public class BookService {
 
     public void saveToFile(List<Book> list){
         try {
-            FileOutputStream fileOutputStream=new FileOutputStream(this.file);
+            FileOutputStream fileOutputStream=new FileOutputStream(file);
             ObjectOutputStream outputStream= new ObjectOutputStream(fileOutputStream);
             outputStream.writeObject(list);
         }
@@ -43,7 +43,7 @@ public class BookService {
         }
     }
 
-    public  List<Book> getAllToFile() {
+    public static List<Book> getAllToFile() {
         List<Book> books = new ArrayList<>();
         try {
             FileInputStream fileInputStream= new FileInputStream(file);
@@ -270,19 +270,47 @@ public class BookService {
 
     }
 
+    public void bookGroupCategory(){
+        List<Book> books=getAllToFile();
+        List<Category> categories= categoryService.getAllToFile();
+
+        for (Book book : books) {
+            for (Category category : categories) {
+                if (book.getCategoryId()==category.getId()){
+                    System.out.println("Thể loại: "+category.getName());
+                    System.out.println("Sách " +book.getTitle());
+                }
+            }
+        }
+
+    }
 
     //Search book
     public void searchBook(){
         Scanner sc=new Scanner(System.in);
-        System.out.println("Nhập vào tên sách bạn cần tìm ");
-        String nameBook=sc.nextLine();
-        List<Book> books=getAllToFile();
 
-        for (Book value : books){
-            if (nameBook.contains(value.getTitle())){
-                System.out.println("Mã sách " + value.getId());
+           System.out.println("Nhập vào tên sách bạn cần tìm ");
+           String nameBook=sc.nextLine();
+           List<Book> books=getAllToFile();
+            boolean check=false;
+           try {
+               for (Book value : books){
+                   if (value.getTitle().contains(nameBook) || value.getAuthor().contains(nameBook) ||value.getPublisher().contains(nameBook)){
+                       System.out.println("Tên sách vừa tìm được : ");
+                       System.out.println("------------------");
+                       check=true;
+                       value.output();
+                   }
+               }
+               if (!check){
+                   System.err.println("Không tìm thấy sách theo yêu cầu !");
 
-            }
-        }
+               }
+           }
+           catch (Exception e){
+               System.err.println("Không tìm thấy sách theo yêu cầu !");
+           }
     }
+
+
 }

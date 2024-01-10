@@ -14,6 +14,6 @@ public class DemoPrintTable {
         System.out.printf("--------------------------%n");
         System.out.printf("----Danh sách danh mục----%n");
         System.out.printf("--------------------------%n");
-        System.out.printf("| %-6s | %-20s | %-10s |%n", "ID","Tên thể loại","Trạng thái");
+        System.out.printf("| %-6s | %-20s | %-10s | %-5s |%n", "ID","Tên thể loại","Trạng thái","Số sách");
     }
 }

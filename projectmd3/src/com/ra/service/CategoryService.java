@@ -1,15 +1,14 @@
 package com.ra.service;
 
+import com.ra.model.Book;
 import com.ra.model.Category;
 
-import javax.imageio.IIOException;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class CategoryService {
-    Scanner sc=new Scanner(System.in);
+    private static final BookService bookService=new BookService();
     File file;
 
     public CategoryService() {
@@ -59,6 +58,7 @@ public class CategoryService {
 
     //Thêm mới category
     public void addCategory(){
+        Scanner sc=new Scanner(System.in);
         List<Category> categories=getAllToFile();
         do {
             System.out.println("Nhâp vào thông tin Thể loại");
@@ -80,8 +80,10 @@ public class CategoryService {
     //Hiển thị danh sách thể loai
     public void showCategory(){
         List<Category> categories=getAllToFile();
+        Collections.sort(categories);
         for (Category category : categories) {
             category.output();
+            System.out.println("-------------");
         }
     }
 
@@ -95,8 +97,28 @@ public class CategoryService {
         return null;
     }
 
+
+    //statistics category
+    public void statisticsCategory(){
+        Scanner sc=new Scanner(System.in);
+        List<Category> categories=getAllToFile();
+        List<Book> books= bookService.getAllToFile();
+
+        System.out.printf("-------------------------%n");
+        System.out.printf("----Thống kê thể loại----%n");
+        System.out.printf("-------------------------%n");
+        System.out.printf("| %-6s | %-20s | %-15s | %-5s |%n", "ID","Tên thể loại","Trạng thái","Số sách");
+        System.out.printf("-----------------------------------------------------%n");
+            for (Category category : categories) {
+                System.out.printf("| %-6s | %-20s | %-15s |%n",
+                        category.getId(),category.getName(),category.isStatus()?"Hoạt động":"Không hoạt động");
+        }
+        System.out.printf("-----------------------------------------------------%n");
+
+    }
     //Update thể loại
     public void updateCategory(){
+        Scanner sc=new Scanner(System.in);
         System.out.println("Nhập vào mã thể loại cần sửa: ");
         int checkIdCategory= Integer.parseInt(sc.nextLine());
         List<Category> categories=getAllToFile();
@@ -147,20 +169,39 @@ public class CategoryService {
             System.out.println(" Không tìm thấy thể loại nào !");
         }
     }
+
+    //Check IdCate có tồn tại hay ko
+    public boolean checkIdCategoryBook(int idCate){
+        List<Book> books= bookService.getAllToFile();
+        for (Book book : books) {
+            if (idCate==book.getCategoryId()){
+                return true;
+            }
+        }
+        return false;
+    }
     //Xóa thể loại
     public void deleteCategory(){
+        Scanner sc=new Scanner(System.in);
         System.out.println("Nhập mã thể loại cần xóa: ");
         int checkIdCategory= Integer.parseInt(sc.nextLine());
         List<Category> categories=getAllToFile();
-
         Category category= findIdCategory(checkIdCategory,categories);
-        if ((category!=null)){
-            categories.remove(category);
-            System.out.println("Thể loại có mã = " +checkIdCategory + " đã được xóa thành công !");
-            saveToFile(categories);
-        }
-        else {
-            System.out.println("Không tìm thấy thể loại có mã : "+checkIdCategory);
-        }
+
+                if (checkIdCategoryBook(checkIdCategory)){
+                    System.err.println("Thể loại đang tồn tại Sách nên không thể xóa !");
+                }
+                else {
+                    if (category!=null){
+                        categories.remove(category);
+                        System.out.println("Thể loại có mã = " +checkIdCategory + " đã được xóa thành công !");
+                        saveToFile(categories);
+                    }
+                    else {
+                        System.err.println("Không tìm thấy thể loại có mã : "+checkIdCategory);
+
+                    }
+                }
+
     }
 }
