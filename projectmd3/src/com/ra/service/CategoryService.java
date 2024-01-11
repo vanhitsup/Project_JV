@@ -100,7 +100,6 @@ public class CategoryService {
 
     //statistics category
     public void statisticsCategory(){
-        Scanner sc=new Scanner(System.in);
         List<Category> categories=getAllToFile();
         List<Book> books= bookService.getAllToFile();
 

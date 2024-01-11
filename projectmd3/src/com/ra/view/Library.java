@@ -102,9 +102,9 @@ public class Library  {
                     bookService.searchBook();
                     break;
                 case 5:
-//                    bookService.bookGroupCategory();
+                    bookService.bookGroupCategory();
 
-                    bookService.showBook();
+//                    bookService.showBook();
                     break;
                 case 6:
                     showMenu();

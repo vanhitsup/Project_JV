@@ -273,17 +273,23 @@ public class BookService {
     public void bookGroupCategory(){
         List<Book> books=getAllToFile();
         List<Category> categories= categoryService.getAllToFile();
-
-        for (Book book : books) {
+        int stt=1;
+        System.out.println("---Hiển thị sách theo nhóm thể loại");
+        boolean check=true;
             for (Category category : categories) {
-                if (book.getCategoryId()==category.getId()){
-                    System.out.println("Thể loại: "+category.getName());
-                    System.out.println("Sách " +book.getTitle());
+                if(check){
+                    System.out.printf("%d. %s \n",stt,category.getName());
+                    stt++;
+                    for (Book book : books) {
+                        if (book.getCategoryId()==category.getId()){
+                            System.out.printf("\t %d.%d. %s\n",stt-1,stt,book.getTitle());
+                        }
+
+                    }
                 }
             }
         }
 
-    }
 
     //Search book
     public void searchBook(){
