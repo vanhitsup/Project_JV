@@ -106,7 +106,7 @@ public class CategoryService {
         System.out.printf("-------------------------%n");
         System.out.printf("----Thống kê thể loại----%n");
         System.out.printf("-------------------------%n");
-        System.out.printf("| %-6s | %-20s | %-15s | %-5s |%n", "ID","Tên thể loại","Trạng thái","Số sách");
+        System.out.printf("| %-6s | %-20s | %-15s | %-5s |%n", "ID","Tên thể loại","Trạng thái");
         System.out.printf("-----------------------------------------------------%n");
             for (Category category : categories) {
                 System.out.printf("| %-6s | %-20s | %-15s |%n",
