@@ -106,7 +106,7 @@ public class CategoryService {
         System.out.printf("-------------------------%n");
         System.out.printf("----Thống kê thể loại----%n");
         System.out.printf("-------------------------%n");
-        System.out.printf("| %-6s | %-20s | %-15s | %-5s |%n", "ID","Tên thể loại","Trạng thái");
+        System.out.printf("| %-6s | %-20s | %-15s |%n", "ID","Tên thể loại","Trạng thái");
         System.out.printf("-----------------------------------------------------%n");
             for (Category category : categories) {
                 System.out.printf("| %-6s | %-20s | %-15s |%n",
@@ -163,6 +163,7 @@ public class CategoryService {
             while (true);
 
             saveToFile(categories);
+            System.out.println("Cập nhật thành công");
         }
         else {
             System.out.println(" Không tìm thấy thể loại nào !");

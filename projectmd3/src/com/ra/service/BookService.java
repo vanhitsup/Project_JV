@@ -88,6 +88,7 @@ public class BookService {
         }
         while (true);
         saveToFile(books);
+        System.out.println("Thêm mới thành công");
     }
 
     public void showBook(){
@@ -104,6 +105,7 @@ public class BookService {
                 return book;
             }
         }
+
         return null;
     }
     //Update book
@@ -274,7 +276,7 @@ public class BookService {
         List<Book> books=getAllToFile();
         List<Category> categories= categoryService.getAllToFile();
         int stt=1;
-        System.out.println("---Hiển thị sách theo nhóm thể loại");
+        System.out.println("---Hiển thị sách theo nhóm thể loại---");
         boolean check=true;
             for (Category category : categories) {
                 if(check){
@@ -282,8 +284,11 @@ public class BookService {
                     stt++;
                     for (Book book : books) {
                         if (book.getCategoryId()==category.getId()){
-                            System.out.printf("\t %d.%d. %s\n",stt-1,stt,book.getTitle());
+//                            System.out.printf("\t %d.%d. %s\n",stt-1,stt,book.getTitle());
+                            System.out.printf("\t %s\n","- Mã "+book.getId()+" "+book.getTitle());
+
                         }
+
 
                     }
                 }
